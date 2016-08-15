@@ -2,6 +2,7 @@ package br.univel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
     })
 
 @WebServlet("/Entrega")
-public class ServletEntrada extends HttpServlet{
+public class ServletEntrega extends HttpServlet implements Serializable{
 
 	private static final long serialVersionUID = -6046928927589927910L;
 
@@ -52,7 +53,7 @@ public class ServletEntrada extends HttpServlet{
 	@Resource(lookup = "java:/topic/SERVLETENTREGATopic")
 	private Topic topic;
 
-	public ServletEntrada() {
+	public ServletEntrega() {
 	}
 
 	protected void getEntrada(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

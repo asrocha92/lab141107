@@ -1,5 +1,6 @@
 package br.univel.classe;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -9,10 +10,10 @@ import java.util.List;
  *
  */
 
-public class Venda {
+public class Venda implements Serializable{
 	
 	private int cod_venda;
-	private int cpf_cliente;
+	private String cpf_cliente;
 	private List<String> itens;
 	private BigDecimal valor_total;
 
@@ -28,11 +29,11 @@ public class Venda {
 		this.cod_venda = cod_venda;
 	}
 
-	public int getCpf_cliente() {
+	public String getCpf_cliente() {
 		return cpf_cliente;
 	}
 
-	public void setCpf_cliente(int cpf_cliente) {
+	public void setCpf_cliente(String cpf_cliente) {
 		this.cpf_cliente = cpf_cliente;
 	}
 

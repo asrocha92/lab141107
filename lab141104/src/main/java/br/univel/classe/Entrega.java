@@ -1,9 +1,10 @@
 package br.univel.classe;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Entrega {
+public class Entrega implements Serializable{
 	
 	private int cod_entrega;
 	private List<String> itens;
