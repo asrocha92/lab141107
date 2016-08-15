@@ -4,3 +4,4 @@
 #4 Criados os EJBs ProcessEntrega e ProcessVenda
 #5 servlet config
 #6 criados os 5 MDBs
+#7 foi criado MDBLosgistica
