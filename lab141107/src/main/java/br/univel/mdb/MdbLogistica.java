@@ -1,5 +1,6 @@
 package br.univel.mdb;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.ejb.ActivationConfigProperty;
@@ -8,19 +9,12 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-import javax.jms.Topic;
-import javax.jms.TopicConnection;
-import javax.jms.TopicConnectionFactory;
-import javax.jms.TopicPublisher;
-import javax.jms.TopicSession;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+
+import org.hibernate.Session;
 
 import br.univel.classe.Entrega;
-import br.univel.classe.Venda;
+import br.univel.model.Log;
+import br.univel.persistence.HibernateUtil;
 
 @MessageDriven(name = "MdbLogistica", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "Queue/QueuePedidos"),
@@ -35,23 +29,17 @@ public class MdbLogistica implements MessageListener {
 	public void onMessage(Message rcvMessage) {
 		ObjectMessage obj = null;
 		try {
-
 			if(rcvMessage instanceof ObjectMessage){
 				obj = (ObjectMessage) rcvMessage;
 				Entrega entrega = (Entrega) obj.getObject();
+
+				// # 10
+				Log l = new Log();
+				l.setMdb("MDBLogistica");
+				l.setData(new Date().toString());
+				l.setHora(new Date().toString());
+
 				LOGGER.info("MBD - Logistica");
-//				LOGGER.info(venda.toString());
-//				// --------------- inserção do código------------------
-//				//--------------- Inicia o processo da chamada de processos Vinculados a VendasTopic
-//		        Context ctx = new InitialContext(System.getProperties());
-//				TopicConnectionFactory factory = (TopicConnectionFactory) ctx.lookup("ConnectionFactory");
-//				TopicConnection connection = factory.createTopicConnection();
-//				TopicSession session = connection.createTopicSession(
-//				false, Session.AUTO_ACKNOWLEDGE);
-//				Topic topic = (Topic) ctx.lookup("topic/VendasTOPIC");
-//				TopicPublisher publisher = session.createPublisher(topic);
-//				rcvMessage = session.createObjectMessage();
-//				publisher.publish(rcvMessage);
 
 				// --------------- inserção do código------------------
 				LOGGER.info("Iniciando despache...");
@@ -67,9 +55,13 @@ public class MdbLogistica implements MessageListener {
 				LOGGER.info(entrega.toString());
 				LOGGER.info("Foi despachado.");
 
-				// --- Fecha a sessão que o cliente inicio
-//				session.close();
-//				connection.close();
+
+				Session session = HibernateUtil.getSessionFactory().openSession();
+		        session.beginTransaction();
+		        session.persist(l);
+		        session.getTransaction().commit();
+		        session.close();
+
 			} else {
 				LOGGER.warning("Message of wrong type: " + rcvMessage.getClass().getName());
 			}

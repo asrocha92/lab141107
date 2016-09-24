@@ -1,5 +1,9 @@
 package br.univel.mdb;
 
+import br.univel.model.*;
+import br.univel.persistence.HibernateUtil;
+
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.ejb.ActivationConfigProperty;
@@ -8,6 +12,8 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
+
+import org.hibernate.Session;
 
 import br.univel.classe.Venda;
 
@@ -28,6 +34,19 @@ public class MdbAuditoria implements MessageListener {
 				Venda venda = (Venda) obj.getObject();
 				LOGGER.info("MBD - Auditoria");
 				LOGGER.info(venda.toString());
+
+			// # 10
+				Log l = new Log();
+				l.setMdb("MdbAuditoria");
+				l.setData(new Date().toString());
+				l.setHora(new Date().toString());
+
+				Session session = HibernateUtil.getSessionFactory().openSession();
+		        session.beginTransaction();
+		        session.persist(l);
+		        session.getTransaction().commit();
+		        session.close();
+
 			} else {
 				LOGGER.warning("Message of wrong type: " + rcvMessage.getClass().getName());
 			}
