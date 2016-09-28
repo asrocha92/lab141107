@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "Log")
+@Table
 public class Log implements Serializable {
 
 	@Id
