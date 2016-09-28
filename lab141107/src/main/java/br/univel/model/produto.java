@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Version;
 
 @Entity
-public class Log implements Serializable {
+public class produto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,14 +19,14 @@ public class Log implements Serializable {
 	@Column(name = "version")
 	private int version;
 
-	@Column(name = "mdb")
-	private String mdb;
+	@Column
+	private String codBarras;
 
-	@Column(name = "data")
-	private String data;
+	@Column
+	private String descricao;
 
-	@Column(name = "hora")
-	private String hora;
+	@Column
+	private double valor;
 
 	public Long getId() {
 		return this.id;
@@ -49,10 +49,10 @@ public class Log implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof Log)) {
+		if (!(obj instanceof produto)) {
 			return false;
 		}
-		Log other = (Log) obj;
+		produto other = (produto) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;
@@ -69,39 +69,38 @@ public class Log implements Serializable {
 		return result;
 	}
 
-	public String getMdb() {
-		return mdb;
+	public String getCodBarras() {
+		return codBarras;
 	}
 
-	public void setMdb(String mdb) {
-		this.mdb = mdb;
+	public void setCodBarras(String codBarras) {
+		this.codBarras = codBarras;
 	}
 
-	public String getData() {
-		return data;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
-	public String getHora() {
-		return hora;
+	public double getValor() {
+		return valor;
 	}
 
-	public void setHora(String hora) {
-		this.hora = hora;
+	public void setValor(double valor) {
+		this.valor = valor;
 	}
 
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		if (mdb != null && !mdb.trim().isEmpty())
-			result += "mdb: " + mdb;
-		if (data != null && !data.trim().isEmpty())
-			result += ", data: " + data;
-		if (hora != null && !hora.trim().isEmpty())
-			result += ", hora: " + hora;
+		if (codBarras != null && !codBarras.trim().isEmpty())
+			result += "codBarras: " + codBarras;
+		if (descricao != null && !descricao.trim().isEmpty())
+			result += ", descricao: " + descricao;
+		result += ", valor: " + valor;
 		return result;
 	}
 }
